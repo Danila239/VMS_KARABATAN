@@ -29,7 +29,7 @@ scheduler.start()
 # Добавление задачи в планировщик
 scheduler.add_job(
     send_periodic_message,
-    CronTrigger(hour=13, minute=56),  # Каждый день в 8:00
+    CronTrigger(hour=14, minute=5),  # Каждый день в 8:00
     id='daily_message_job',
     name='Отправка сообщения каждый день в 8 утра',
     replace_existing=True
