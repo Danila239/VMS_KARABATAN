@@ -48,6 +48,7 @@ def get_text_messages(message):
         elif any(keyword in message.text for keyword in ['!', '!!', '!!!']):
             random_values = random.sample(values, 4)
             bot.reply_to(message, '\n'.join(random_values))
-
+    elif 'ы' in message.text:
+        bot.reply_to(message,"ы")
 # Запуск бота
 bot.polling()
