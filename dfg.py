@@ -1,40 +1,39 @@
 from telebot import *
 import random
 from apscheduler.schedulers.background import BackgroundScheduler
-from datetime import datetime, timedelta
-import pytz
+from apscheduler.triggers.cron import CronTrigger
+import logging
+
 # Вставьте сюда свой токен Telegram API
 TOKEN = "7054824514:AAH6f-3UUfs6mFvo5ilBN9VN3aVgDhgjhd4"
 bot = telebot.TeleBot(TOKEN)
 
 CHAT_ID = "-4286479911"
-local_tz = pytz.timezone('Asia/Karachi')
+
+# Настройка логирования
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
-def send_scheduled_message():
-    # Отправка сообщения в группу
-    bot.send_message(CHAT_ID, "Это запланированное сообщение!")
+def send_periodic_message():
+    try:
+        bot.send_message(CHAT_ID, "Это ваше сообщение каждый день в 8 утра.")
+        logger.info("Сообщение отправлено.")
+    except Exception as e:
+        logger.error(f"Ошибка при отправке сообщения: {e}")
 
+# Настройка планировщика
+scheduler = BackgroundScheduler()
+scheduler.start()
 
-def schedule_messages():
-    scheduler = BackgroundScheduler()
-
-    # Установка времени на 8:00 по GMT+5
-    local_time = local_tz.localize(datetime.strptime('10:35:00', '%H:%M:%S')).time()
-    utc_time = local_tz.normalize(
-        pytz.utc.localize(datetime.combine(datetime.today(), local_time)).astimezone(pytz.utc)).time()
-
-    # Запланировать выполнение задачи каждый день в 8:00 по GMT+5
-    scheduler.add_job(send_scheduled_message, 'cron', hour=utc_time.hour, minute=utc_time.minute, timezone='UTC')
-
-    # Запуск планировщика
-    scheduler.start()
-
-
-# Запуск планировщика сообщений
-schedule_messages()
-
-
+# Добавление задачи в планировщик
+scheduler.add_job(
+    send_periodic_message,
+    CronTrigger(hour=10, minute=54),  # Каждый день в 8:00
+    id='daily_message_job',
+    name='Отправка сообщения каждый день в 8 утра',
+    replace_existing=True
+)
 
 # Список из 12 значений
 values = ['Линия AA', 'Линия AB', 'Линия AC', 'Линия AD', 'Линия AE', 'Линия AF',
