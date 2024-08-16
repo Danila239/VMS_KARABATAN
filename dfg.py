@@ -8,7 +8,7 @@ import logging
 TOKEN = "7054824514:AAH6f-3UUfs6mFvo5ilBN9VN3aVgDhgjhd4"
 bot = telebot.TeleBot(TOKEN)
 
-CHAT_ID = "-4286479911"
+CHAT_ID = "4286479911"
 
 # Настройка логирования
 logging.basicConfig(level=logging.INFO)
@@ -29,7 +29,7 @@ scheduler.start()
 # Добавление задачи в планировщик
 scheduler.add_job(
     send_periodic_message,
-    CronTrigger(hour=9, minute=33),  # Каждый день в 8:00
+    CronTrigger(hour=9, minute=37),  # Каждый день в 8:00
     id='daily_message_job',
     name='Отправка сообщения каждый день в 8 утра',
     replace_existing=True
