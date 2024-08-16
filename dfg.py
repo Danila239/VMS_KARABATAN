@@ -20,7 +20,7 @@ def schedule_messages():
     scheduler = BackgroundScheduler()
 
     # Установка времени на 8:00 по GMT+5
-    local_time = local_tz.localize(datetime.strptime('08:00:00', '%H:%M:%S')).time()
+    local_time = local_tz.localize(datetime.strptime('10:35:00', '%H:%M:%S')).time()
     utc_time = local_tz.normalize(
         pytz.utc.localize(datetime.combine(datetime.today(), local_time)).astimezone(pytz.utc)).time()
 
