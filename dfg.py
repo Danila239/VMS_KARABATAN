@@ -29,7 +29,7 @@ scheduler.start()
 # Добавление задачи в планировщик
 scheduler.add_job(
     send_periodic_message,
-    CronTrigger(hour=8, minute=6),  # Каждый день в 8:00
+    CronTrigger(hour=10, minute=15),  # Каждый день в 8:00
     id='daily_message_job',
     name='Отправка сообщения каждый день в 8 утра',
     replace_existing=True
@@ -80,6 +80,12 @@ def get_text_messages(message):
             bot.reply_to(message, '\n'.join(random_values))
     else:
         bot.reply_to(message, "Сообщение не распознано. Попробуйте другую команду.")
+
+
+@bot.message_handler(func=lambda message: message.chat.id == CHAT_ID)
+def handle_message(message):
+    # Ответ на сообщение
+    bot.reply_to(message, "Ваше сообщение было получено!")
 
 # Запуск бота
 bot.polling()
